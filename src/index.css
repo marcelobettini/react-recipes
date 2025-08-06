@@ -5,3 +5,18 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 }
+
+a {
+  text-decoration: none;
+  color: rgb(222, 111, 185);
+
+  &:visited {
+    color: rgb(222, 111, 185);
+  }
+
+  &:hover {
+    color: rgb(255, 255, 255);
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+  }
+}
