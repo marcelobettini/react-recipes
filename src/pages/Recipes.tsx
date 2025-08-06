@@ -1,24 +1,19 @@
 import { Link } from 'react-router'
-import { useState, useEffect } from 'react'
 import type { Recipe } from '../types'
+import useFetch from '../hooks/useFetch'
+import './Recipes.css'
 export default function Recipes() {
-    const [recipes, setRecipes] = useState<Recipe[]>([])
-    useEffect(() => {
-        fetch('https://67f95738094de2fe6ea13bdf.mockapi.io/api/v1/recipes')
-            .then(response => response.json())
-            .then(data => setRecipes(data))
-            .catch(error => console.error('Error fetching recipes:', error))
-    }, [])
+    const { data, isLoading, error } = useFetch<Recipe[]>('/recipes')
 
-    if (!recipes.length) {
-        return <p>Loading recipes...</p>
-    }
+    if (isLoading) return <h3>Loading recipes...</h3>
+    if (error) return <h3>Error: {error}</h3>
     return (
         <div>
             <h1>Recipes</h1>
             <ul>
-                {recipes.map((recipe: Recipe) => (
+                {data?.map((recipe: Recipe) => (
                     <li
+                        className='recipe-link'
                         key={recipe.id}
                         style={{ cursor: 'pointer' }}
                     >
@@ -27,7 +22,7 @@ export default function Recipes() {
                         </Link>
                         {' '}
                         - {' '}
-                        {recipe.rating} stars
+                        {recipe.rating} ⭐️
                     </li>
                 ))}
             </ul>

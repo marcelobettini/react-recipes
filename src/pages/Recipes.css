@@ -1,0 +1,15 @@
+.recipe-link a {
+    color: pink;
+    text-decoration: none;
+
+    &:visited {
+        color: pink
+    }
+
+    &:hover {
+        color: hotpink;
+        border-top: 1px solid whitesmoke;
+        border-bottom: 1px solid whitesmoke
+    }
+
+}
