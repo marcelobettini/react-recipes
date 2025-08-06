@@ -1,72 +1,25 @@
-import './RecipeDetail.css'
 import { useParams } from 'react-router'
+import useFetch from '../hooks/useFetch'
 import type { Recipe } from '../types'
-import { useEffect, useState } from 'react'
+import './RecipeDetail.css'
+
 export default function RecipeDetail() {
     const { id } = useParams<{ id: string }>()
-    const [recipe, setRecipe] = useState<Recipe>()
-    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        // 🛡️ PASO 1: Validación de seguridad
-        // Si no hay ID en la URL, no hacer nada
-        if (!id) return
+    // 🔍 Hook para receta individual
+    const { data: recipe, isLoading, error } = useFetch<Recipe>(`recipes/${id}`, {
+        enableCache: true,
+        cacheDuration: 10 * 60 * 1000,  // 10 minutos (más tiempo para recetas individuales)
+        cacheKey: `recipe_${id}`         // Clave única por receta
+    })
 
-        // 🔑 PASO 2: Generar claves únicas para esta receta específica
-        // Cada receta tiene su propia entrada en localStorage
-        // Ejemplo: recipe_1, recipe_1_timestamp, recipe_2, recipe_2_timestamp, etc.
-        const cacheKey = `recipe_${id}`
-        const timestampKey = `recipe_${id}_timestamp`
-
-        // 📦 PASO 3: Intentar recuperar datos del cache local
-        const cachedRecipe = localStorage.getItem(cacheKey)
-        const cacheTimestamp = localStorage.getItem(timestampKey)
-
-        // ⏰ PASO 4: Configurar duración del cache para recetas individuales
-        // 10 minutos es más largo que la lista porque los usuarios
-        // tienden a volver a ver la misma receta más frecuentemente
-        const CACHE_DURATION = 10 * 60 * 1000
-
-        // 🕐 PASO 5: Verificar si el cache ha expirado
-        const now = Date.now()
-        const isExpired = !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION
-
-        // 🚀 PASO 6: Decidir si usar cache o hacer fetch
-        if (cachedRecipe && !isExpired) {
-            // ✅ CACHE HIT: La receta está disponible y no ha expirado
-            console.log(`📦 Cargando receta ${id} desde cache local`)
-            setRecipe(JSON.parse(cachedRecipe))
-            setLoading(false)
-        } else {
-            // ❌ CACHE MISS: No hay datos o han expirado, hacer fetch
-            console.log(`🌐 Descargando receta ${id} desde la API`)
-            fetch('https://67f95738094de2fe6ea13bdf.mockapi.io/api/v1/recipes/' + id)
-                .then(response => response.json())
-                .then(data => {
-                    // 📝 PASO 7: Actualizar estado con datos frescos
-                    setRecipe(data)
-
-                    // 💾 PASO 8: Guardar en localStorage para futuras visitas
-                    // Guardamos tanto los datos como el timestamp actual
-                    localStorage.setItem(cacheKey, JSON.stringify(data))
-                    localStorage.setItem(timestampKey, now.toString())
-
-                    console.log(`💾 Receta ${id} guardada en cache local`)
-                    setLoading(false)
-                })
-                .catch(error => {
-                    // 🚨 PASO 9: Manejar errores de red
-                    console.error('Error fetching recipe:', error)
-                    setLoading(false)
-                })
-        }
-    }, [id]) // 🔄 PASO 10: Dependencia crucial en 'id'
-    // Esto hace que el efecto se ejecute cuando cambie la ruta
-    // Ejemplo: /recipes/1 → /recipes/2 → ejecuta el efecto nuevamente
+    if (isLoading) return <p>Loading recipe...</p>
+    if (error) return <p>Error: {error}</p>
+    if (!recipe) return <p>Recipe not found</p>
     return (
         <>
             {/* 🔄 PASO 11: Render condicional basado en el estado de carga */}
-            {loading ? (
+            {isLoading ? (
                 // 📱 Mostrar indicador mientras se carga (cache o fetch)
                 <p>Loading recipe...</p>
             ) : recipe ? (
