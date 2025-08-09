@@ -1,69 +1,64 @@
-# React + TypeScript + Vite
+# ¿Qué es debounce?
+Debounce es una técnica que retrasa la ejecución de una función hasta que haya pasado un tiempo determinado sin que se vuelva a llamar. Es como un "temporizador que se reinicia" cada vez que intentas ejecutar la función.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Análisis paso a paso
 
-Currently, two official plugins are available:
+### 1. Definición de la función
+```ts
+const debounce = (func: (e: ChangeEvent<HTMLInputElement>) => void, delay: number) =>
+```
+* Recibe dos parámetros:
+  * `func`: La función que queremos "debouncear" (retrasar)
+  * `delay`: El tiempo en milisegundos que debe esperar antes de ejecutar la función
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 2. Variable para almacenar el timeout
+```ts
+let timeoutId: ReturnType<typeof setTimeout>
+```
+* Declara una variable que almacenará el ID del timeout
+* `ReturnType<typeof setTimeout>` typeof setTimeout es el tipo de la función `setTimeout`, mientras que `ReturnType` obtiene el tipo de retorno de esa función, que es un número en JavaScript. Esto asegura que `timeoutId` sea del tipo correcto para almacenar el ID del timeout.
+Esta variable persiste entre llamadas gracias al closure.
 
-## Expanding the ESLint configuration
+### 3. Función que se retorna
+```ts
+return (e: ChangeEvent<HTMLInputElement>) => {
+```
+* Retorna una nueva función que será la que realmente uses
+* Esta función recibe el evento del input como parámetro
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 4. Cancelar timeout anterior
+```ts
+clearTimeout(timeoutId)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **Clave del debounce**: Cancela cualquier timeout pendiente
+* Esto significa que si la función se llama antes de que termine el delay, el timeout anterior se cancela
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 5. Crear nuevo timeout
+```ts
+timeoutId = setTimeout(() => {
+    func(e)
+}, delay)
 ```
+
+* Crea un nuevo timeout que ejecutará la función original después del delay
+* Guarda el ID del timeout en la variable para poder cancelarlo después
+
+### Cómo funciona en la práctica?
+
+1. **Usuario escribe "H"** → Se programa ejecutar `handleSearch` en 500ms
+2. **Usuario escribe "e" (antes de 500ms)** → Se cancela el timeout anterior y se programa uno nuevo
+3. **Usuario escribe "l" (antes de 500ms)** → Se cancela el timeout anterior y se programa uno nuevo
+4. **Usuario escribe "l" (antes de 500ms)** → Se cancela el timeout anterior y se programa uno nuevo
+5. **Usuario escribe "o" (antes de 500ms)** → Se cancela el timeout anterior y se programa uno nuevo
+6. **Usuario para de escribir** → Después de 500ms se ejecuta `handleSearch` con "Hello"
+
+### Beneficios
+
+- **Performance**: Evita hacer muchas llamadas innecesarias (ej: a APIs)
+- **UX**: Reduce el "ruido" de ejecuciones mientras el usuario está escribiendo
+- **Recursos**: Ahorra ancho de banda y procesamiento
+
+### Concepto clave: `Closure`
+
+Gracias al **`closure`** de JavaScript, la variable `timeoutId` queda "capturada" en el scope de la función `debounce`, permitiendo que persista entre múltiples llamadas a la función retornada.
