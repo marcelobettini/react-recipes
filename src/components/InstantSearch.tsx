@@ -24,7 +24,8 @@ export default function InstantSearch({ onSearch }: Props) {
                 aria-label="Search recipes"
                 id="queryInput"
                 name="queryInput"
-                onChange={debounce(handleInputChange, 300)}
+                // onChange={handleInputChange}
+                onChange={debounce(handleInputChange, 500)}
                 placeholder='Search: "tiramisu, pizza,corn..."'
                 type="search"
             />
