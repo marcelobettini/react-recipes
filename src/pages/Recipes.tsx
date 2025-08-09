@@ -1,7 +1,7 @@
-import { Link } from 'react-router'
 import type { Recipe } from '../types'
 import useFetch from '../hooks/useFetch'
 import './Recipes.css'
+import RecipeHeading from '../components/RecipeHeading'
 export default function Recipes() {
     const { data, isLoading, error } = useFetch<Recipe[]>('/recipes')
 
@@ -12,18 +12,7 @@ export default function Recipes() {
             <h1>Recipes</h1>
             <ul>
                 {data?.map((recipe: Recipe) => (
-                    <li
-                        className='recipe-link'
-                        key={recipe.id}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <Link to={`/recipes/${recipe.id}`}>
-                            {recipe.name}
-                        </Link>
-                        {' '}
-                        - {' '}
-                        {recipe.rating} ⭐️
-                    </li>
+                    <RecipeHeading recipe={recipe} key={recipe.id} />
                 ))}
             </ul>
         </div>

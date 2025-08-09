@@ -1,5 +1,5 @@
 import './RecipeDetail.css'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import type { Recipe } from '../types'
 import useFetch from '../hooks/useFetch'
 export default function RecipeDetail() {
@@ -11,6 +11,7 @@ export default function RecipeDetail() {
         <>
             {data ? (
                 <div>
+                    <Link to="/recipes"><small>⬅️ back</small></Link>
                     <p style={{ marginBottom: 0, fontStyle: 'italic', color: 'hotpink' }}>{data.mealType.join(", ")}</p>
                     <h2 style={{ marginTop: 0, color: 'pink' }}>{data.name}</h2>
                     <span>{data.cuisine} cuisine</span>
