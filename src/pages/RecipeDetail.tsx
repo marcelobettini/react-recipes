@@ -24,9 +24,10 @@ export default function RecipeDetail() {
                 <p>Loading recipe...</p>
             ) : recipe ? (
                 <div>
-                    <p style={{ marginBottom: 0, fontStyle: 'italic', color: 'hotpink' }}>{recipe.mealType.join(", ")}</p>
-                    <h2 style={{ marginTop: 0, color: 'pink' }}>{recipe.name}</h2>
-                    <span>{recipe.cuisine} cuisine</span>
+                    <Link to="/recipes"><small>⬅️ back</small></Link>
+                    <p style={{ marginBottom: 0, fontStyle: 'italic', color: 'hotpink' }}>{data.mealType.join(", ")}</p>
+                    <h2 style={{ marginTop: 0, color: 'pink' }}>{data.name}</h2>
+                    <span>{data.cuisine} cuisine</span>
                     <hr style={{ marginTop: 0, border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <p>Rating: {recipe.rating} ⭐️</p>
                     <p>Difficulty: {recipe.difficulty}</p>
@@ -39,14 +40,14 @@ export default function RecipeDetail() {
                     <hr style={{ border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <h3>Ingredients:</h3>
                     <ul>
-                        {recipe.ingredients?.map((ingredient, index) => (
+                        {data.ingredients?.map((ingredient, index) => (
                             <li key={index}>{ingredient}</li>
                         ))}
                     </ul>
                     <hr style={{ border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <h3>Instructions:</h3>
                     <ul>
-                        {recipe.instructions?.map((step, index) => (
+                        {data.instructions?.map((step, index) => (
                             <li key={index}>{step}</li>
                         ))}
                     </ul>

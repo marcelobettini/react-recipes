@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router'
 const navStyle = ({ isActive }: { isActive: boolean }) => ({
-    color: isActive ? 'hotpink' : '',
+    color: isActive ? 'pink' : '',
 })
+import './Nav.css'
 
 export default function Nav() {
     return (
-        <nav>
+        <nav className='nav'>
             <ul>
                 <li>
                     <NavLink

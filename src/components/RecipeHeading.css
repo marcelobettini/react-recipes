@@ -1,0 +1,35 @@
+.recipe-link {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1em;
+
+
+
+    & img {
+        width: 35px;
+        border-radius: 50%;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    & a {
+        flex-grow: 1;
+        color: pink;
+        text-decoration: none;
+
+        &:visited {
+            color: pink
+        }
+
+        &:hover {
+            color: hotpink;
+            border-top: 1px solid whitesmoke;
+            border-bottom: 1px solid whitesmoke
+        }
+    }
+}
