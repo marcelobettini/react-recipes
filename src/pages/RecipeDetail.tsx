@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import useFetch from '../hooks/useFetch'
 import type { Recipe } from '../types'
 import './RecipeDetail.css'
@@ -25,9 +25,9 @@ export default function RecipeDetail() {
             ) : recipe ? (
                 <div>
                     <Link to="/recipes"><small>⬅️ back</small></Link>
-                    <p style={{ marginBottom: 0, fontStyle: 'italic', color: 'hotpink' }}>{data.mealType.join(", ")}</p>
-                    <h2 style={{ marginTop: 0, color: 'pink' }}>{data.name}</h2>
-                    <span>{data.cuisine} cuisine</span>
+                    <p style={{ marginBottom: 0, fontStyle: 'italic', color: 'hotpink' }}>{recipe.mealType.join(", ")}</p>
+                    <h2 style={{ marginTop: 0, color: 'pink' }}>{recipe.name}</h2>
+                    <span>{recipe.cuisine} cuisine</span>
                     <hr style={{ marginTop: 0, border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <p>Rating: {recipe.rating} ⭐️</p>
                     <p>Difficulty: {recipe.difficulty}</p>
@@ -40,14 +40,14 @@ export default function RecipeDetail() {
                     <hr style={{ border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <h3>Ingredients:</h3>
                     <ul>
-                        {data.ingredients?.map((ingredient, index) => (
+                        {recipe.ingredients?.map((ingredient, index) => (
                             <li key={index}>{ingredient}</li>
                         ))}
                     </ul>
                     <hr style={{ border: 'none', height: '1px', backgroundColor: 'gray' }} />
                     <h3>Instructions:</h3>
                     <ul>
-                        {data.instructions?.map((step, index) => (
+                        {recipe.instructions?.map((step, index) => (
                             <li key={index}>{step}</li>
                         ))}
                     </ul>
