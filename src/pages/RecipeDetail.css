@@ -1,16 +1,301 @@
-.img-detail {
-    width: 100%;
-    height: 300px;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: 8px;
+/* ============================================================================
+   RECIPE DETAIL
+   ========================================================================== */
+
+.detail {
+  padding-top: clamp(8rem, 20vh, 12rem);
 }
 
-a {
-    text-decoration: none;
-    color: whitesmoke;
+.detail--state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  min-height: 60dvh;
+}
 
-    &:hover {
-        color: hotpink;
-    }
+.detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem 0.45rem 0.7rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(251, 248, 241, 0.6);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: color 0.5s var(--ease), border-color 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.detail__back:hover {
+  color: var(--terracotta);
+  border-color: var(--terracotta);
+  transform: translateX(-3px);
+}
+
+/* ---------------------------------- Hero --------------------------------- */
+
+.detail__hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.detail__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.detail__title {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+}
+
+.detail__cuisine {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* --------------------------------- Facts --------------------------------- */
+
+.detail__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  width: 100%;
+  margin: clamp(1rem, 3vw, 1.75rem) 0 0;
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 1px solid var(--line);
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fact__icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: rgba(33, 27, 21, 0.045);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+.fact dt {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.fact dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --------------------------------- Media --------------------------------- */
+
+.detail__media {
+  position: relative;
+}
+
+.detail__media-inner {
+  position: relative;
+}
+
+.bezel.detail__frame {
+  padding: 0.6rem;
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-float), var(--inset-hi);
+}
+
+.detail__frame-core {
+  position: relative;
+  border-radius: calc(var(--r-xl) - 0.6rem);
+  overflow: hidden;
+  aspect-ratio: 5 / 4;
+}
+
+.detail__frame-core img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail__frame-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.35), transparent 42%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.detail__chip {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: var(--r-pill);
+  background: rgba(251, 248, 241, 0.94);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.detail__chip strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.detail__chip span {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.detail__chip--rating {
+  left: -0.75rem;
+  bottom: 1.5rem;
+}
+
+.detail__chip--cuisine {
+  right: -0.75rem;
+  top: 1.5rem;
+}
+
+/* ---------------------------------- Body --------------------------------- */
+
+.detail__body {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(2rem, 6vw, 5.5rem);
+  margin-top: clamp(3.5rem, 8vw, 6.5rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+
+.detail__col-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.detail__col-index {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredients li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+  color: var(--ink-soft);
+}
+
+.ingredients__mark {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--sage);
+  transform: translateY(-0.15rem);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  counter-reset: step;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.steps li:last-child {
+  border-bottom: 0;
+}
+
+.steps__num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--terracotta);
+  min-width: 2ch;
+}
+
+.steps p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------- Responsive ------------------------------ */
+
+@media (max-width: 960px) {
+  .detail__hero {
+    grid-template-columns: 1fr;
+  }
+  .detail__media {
+    max-width: 560px;
+    width: 100%;
+  }
+  .detail__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .detail__facts {
+    grid-template-columns: 1fr;
+  }
+  .detail__chip--rating {
+    left: 0.75rem;
+    bottom: 0.75rem;
+  }
+  .detail__chip--cuisine {
+    right: 0.75rem;
+    top: 0.75rem;
+  }
 }

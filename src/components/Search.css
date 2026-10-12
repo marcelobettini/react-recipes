@@ -1,5 +1,119 @@
-.search-form {
-    display: flex;
+/* ---------------------------------- Search -------------------------------- */
 
-    gap: 0.5rem;
+.search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(100%, 560px);
+  padding: 0.55rem 0.6rem 0.55rem 1.1rem;
+  border-radius: var(--r-pill);
+  background: rgba(251, 248, 241, 0.72);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft), var(--inset-hi);
+  transition: border-color 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease);
 }
+
+.search-field:focus-within {
+  background: var(--paper-2);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-float), var(--inset-hi);
+}
+
+.search-field__icon {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  flex: 0 0 auto;
+  transition: color 0.6s var(--ease);
+}
+
+.search-field:focus-within .search-field__icon {
+  color: var(--terracotta);
+}
+
+.search-field__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.98rem;
+  color: var(--ink);
+  padding-block: 0.5rem;
+  outline: none;
+  appearance: none;
+}
+
+.search-field__input::placeholder {
+  color: var(--muted);
+}
+
+.search-field__input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-field__clear {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(33, 27, 21, 0.05);
+  color: var(--ink-soft);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), background 0.5s var(--ease);
+}
+
+.search-field__clear.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.search-field__clear:hover {
+  background: rgba(191, 91, 56, 0.12);
+  color: var(--terracotta);
+}
+
+/* Submit-based variant (kept for reuse) */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.search-form input {
+  padding: 0.65rem 1rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(251, 248, 241, 0.72);
+  font: inherit;
+  color: var(--ink);
+  outline: none;
+}
+
+.search-form input:focus {
+  border-color: var(--line-strong);
+}
+
+.search-form button {
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  font: inherit;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+}
+
+.search-form button:hover {
+  background: var(--ink);
+  color: var(--paper-2);
+}
+
